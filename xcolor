@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+const clc = require("cli-color");
+const data = require("./data.json");
+
+const args = process.argv;
+
+if(args[2] == "-d") {
+  let hex = args[3];
+  let r = parseInt(hex.slice(0, 2), 16);
+  let g = parseInt(hex.slice(2, 4), 16);
+  let b = parseInt(hex.slice(4, 6), 16);
+  let d = c => {
+    let rr = c.rgb.r - r;
+    let gg = c.rgb.g - g;
+    let bb = c.rgb.b - b;
+    return Math.sqrt(rr*rr + gg*gg + bb*bb);
+  }
+  let sorted = data.sort((a, b) => d(a) - d(b))
+  sorted
+    .slice(0, 10)
+    .forEach(c => {
+      console.log(clc.xterm(c.colorId)(c.colorId + "  " + c.hexString + "  " + c.name));
+    })
+}
+
